@@ -72,6 +72,9 @@ the specifide provider...
     }
   }
 
+
+<img src="vpc.png">  
+
 # Step 2:
 Here in this step we are creating two subnets 
 one of them is public and the other is private.
@@ -92,7 +95,13 @@ Public Subnet...
       Name = "public-subnet2"
     }
   }
-    
+
+
+<img src="publicsubnet.png">
+
+
+
+
 Private Subnet....
 
      resource "aws_subnet" "private-subnet1" {
@@ -104,6 +113,9 @@ Private Subnet....
        Name = "private-subnet1"
      }
    }
+
+<img src="privatesubnet.png">
+
 
 # Step 3:
 
@@ -118,6 +130,9 @@ attach this gateway to our VPC.
       Name = "cloud3-gateway"
     }
   }     
+
+<img src="gateway.png">
+
 
 # Step 4:
 Creating   a routing table for Internet gateway so that
@@ -135,6 +150,10 @@ instance can connect to outside world.
        Name = "rout-table"
     }
   }
+
+
+<img src="route-table.png">
+
 
 Associating this routing table  with our public subnet 
 for availability or accessibility to outside world.
@@ -198,7 +217,11 @@ have the connectivity to the outside world.....
      }
    }
    
-Now launching our Public and private instances...
+<img src="publicsg.png">
+
+
+
+Now launching our Public instance...
 
 Wordpress instance which will have connectivity to 
 the outside world...
@@ -216,6 +239,7 @@ the outside world...
      }
 
    } 
+
 
 # Step 6:
 Other Security Group will we private to launch
@@ -252,6 +276,9 @@ to our public instance...
   
    }
 
+<img src="privatesg.png">
+
+
 
 Our Private MySql server which will store our
 private data...
@@ -269,6 +296,14 @@ private data...
     }
 
 
+Instances that we have launched...
+
+
+<img src="instances.png">
+
+
+
+
 We can check if our code is properly working or not
 with command...
        
@@ -278,6 +313,11 @@ After we have done with our terraform code, launching
 the resources using command...
 
      terrform apply --auto-approve
+     
+     
+ <img src="terraformapply.png">    
+
+
 
 Now all our resources are launched, we can go to 
 our AWS webUI to check all the resources..
@@ -286,14 +326,19 @@ For login into our wordpress server we can use..
 
      ssh -i /path/my-key-pair.pem my-instance-user-name@my-instance-IPv6-address 
      
-This is our Wordpress site....     
+This is our Wordpress site....
+
+
+<img src="wp1.png">
+<img src="wp2.png">
+
 
 
 After we have completed with our work we can destroy
 all our resources with command....
   
       terraform destroy --auto-approve
-      
+ <img src="destroy.png">     
 
 
 
