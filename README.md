@@ -69,8 +69,8 @@ the specifide provider...
 
     tags = {
       Name = "cloud3-vpc"
+      }
     }
-  }
 
 
 <img src="vpc.png">  
@@ -93,8 +93,8 @@ Public Subnet...
 
     tags = {
       Name = "public-subnet2"
+      }
     }
-  }
 
 
 <img src="publicsubnet.png">
@@ -128,10 +128,12 @@ attach this gateway to our VPC.
 
     tags = {
       Name = "cloud3-gateway"
-    }
-  }     
+      }
+    }     
+
 
 <img src="gateway.png">
+
 
 
 # Step 4:
@@ -148,13 +150,15 @@ instance can connect to outside world.
 
     tags = {
        Name = "rout-table"
+      }
     }
-  }
+
 
 
 <img src="route-table.png">
 
 
+ 
 Associating this routing table  with our public subnet 
 for availability or accessibility to outside world.
 
@@ -162,7 +166,8 @@ for availability or accessibility to outside world.
    
       subnet_id      = aws_subnet.public-subnet2.id
       route_table_id = aws_route_table.rout-table.id
-   }
+     }
+
 
 # Step 5:
 We have to asociate our instances to security groups 
@@ -214,10 +219,14 @@ have the connectivity to the outside world.....
 
      tags = {
        Name = "sgcloudpublicwp"
+       }
      }
-   }
-   
+  
+  
+  
 <img src="publicsg.png">
+
+
 
 
 
@@ -236,9 +245,8 @@ the outside world...
 
       tags = {
        Name = "wordpress-os"
-     }
-
-   } 
+       }
+     } 
 
 
 # Step 6:
@@ -273,10 +281,12 @@ to our public instance...
      tags = {
        Name = "sgroupprivate"
      }
-  
-   }
+    }
+
+
 
 <img src="privatesg.png">
+
 
 
 
@@ -292,8 +302,8 @@ private data...
   
       tags = {
         Name = "mysql-private"
-      }
-    }
+       }
+     }
 
 
 Instances that we have launched...
