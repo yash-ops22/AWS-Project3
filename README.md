@@ -50,7 +50,7 @@ data center, with the benefits of using the scalable
 infrastructure of AWS.
 
 
-<img src="vpc.png">
+<img src="vpc1.png">
 
 # Subnet
 A subnet, or subnetwork, is a segmented piece of a larger
