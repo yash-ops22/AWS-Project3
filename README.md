@@ -39,13 +39,40 @@ infrastructure of AWS.
 
 # Let's Go
 
+Before creating any Resources, we have to configure 
+our AWS Profile:
+Here we have already configure it 
+
+    AWS Access Key ID [****************LELI]:
+    AWS Secret Access Key [****************Av0P]:
+    Default region name [ap-south-1]:
+    Default output format [json]:
+    
+Then in our terraform code specifying the 
+provider for creating the resources into 
+the specifide provider...
+
+    provider "aws" {
+    region     = "ap-south-1"
+    profile    = "Yashu"
+  }
+   
 # Step 1:
   Firstly, we have to create a Virtual Private Network or
-  VPC so that we can launch our resurces into it.
+  VPC so that we can launch our resurces into it....
   
   Terraform code for our VPC....
+  
+    resource "aws_vpc" "cloud3-vpc" {
+    cidr_block       = "192.168.0.0/16"
+    instance_tenancy = "default"
 
+    tags = {
+      Name = "cloud3-vpc"
+    }
+  }
 
+# Step 2:
 
 
 
