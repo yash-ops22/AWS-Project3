@@ -289,7 +289,11 @@ For login into our wordpress server we can use..
 This is our Wordpress site....     
 
 
-
+After we have completed with our work we can destroy
+all our resources with command....
+  
+      terraform destroy --auto-approve
+      
 
 
 
