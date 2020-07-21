@@ -267,9 +267,26 @@ private data...
         Name = "mysql-private"
       }
     }
+
+
+We can check if our code is properly working or not
+with command...
+       
+        terraform validate
+        
+After we have done with our terraform code, launching
+the resources using command...
+
+     terrform apply --auto-approve
+
+Now all our resources are launched, we can go to 
+our AWS webUI to check all the resources..
+
+For login into our wordpress server we can use..
+
+     ssh -i /path/my-key-pair.pem my-instance-user-name@my-instance-IPv6-address 
      
-
-
+This is our Wordpress site....     
 
 
 
