@@ -105,16 +105,169 @@ Private Subnet....
      }
    }
 
+# Step 3:
+
+Creating a public facing internet gateway to connect
+our Network to the internet world and also we have to
+attach this gateway to our VPC.
+
+     resource "aws_internet_gateway" "cloud3-gateway" {
+     vpc_id = aws_vpc.cloud3-vpc.id
+
+    tags = {
+      Name = "cloud3-gateway"
+    }
+  }     
+
+# Step 4:
+Creating   a routing table for Internet gateway so that
+instance can connect to outside world. 
+
+     resource "aws_route_table" "rout-table" {
+    vpc_id = aws_vpc.cloud3-vpc.id
+
+    route {
+      cidr_block = "0.0.0.0/0"
+      gateway_id = aws_internet_gateway.cloud3-gateway.id
+    }
+
+    tags = {
+       Name = "rout-table"
+    }
+  }
+
+Associating this routing table  with our public subnet 
+for availability or accessibility to outside world.
+
+     resource "aws_route_table_association" "r-tabl-associate" {
+   
+      subnet_id      = aws_subnet.public-subnet2.id
+      route_table_id = aws_route_table.rout-table.id
+   }
+
+# Step 5:
+We have to asociate our instances to security groups 
+so before launching the instances we are creatig the
+security groups.
+
+One of the Security group will be public which will
+have the connectivity to the outside world.....
+
+     resource "aws_security_group" "sgcloudpublicwp" {
+     name        = "sgcloudpublicwp"
+     description = "Allow HTTP, SSH and ICMP"
+     vpc_id      = aws_vpc.cloud3-vpc.id
+     ingress {
+       description = "http"
+       from_port   = 80
+       to_port     = 80
+       protocol    = "tcp"
+       cidr_blocks = ["0.0.0.0/0"]
+     }
+     ingress {
+       description = "ssh"
+       from_port   = 22
+       to_port     = 22
+       protocol    = "tcp"
+       cidr_blocks = ["0.0.0.0/0"]
+     }
+     ingress {
+       description = "icmp"
+       from_port   = 0
+       to_port     = 0
+       protocol    = "tcp"
+       cidr_blocks = ["0.0.0.0/0"]
+     }
+     ingress {
+       description = "mysql"
+       from_port   = 3306
+       to_port     = 3306
+       protocol    = "tcp"
+       cidr_blocks = ["0.0.0.0/0"]
+     }
+
+     egress {
+       from_port   = 0
+       to_port     = 0
+       protocol    = "-1"
+       cidr_blocks = ["0.0.0.0/0"]
+     }
+
+     tags = {
+       Name = "sgcloudpublicwp"
+     }
+   }
+   
+Now launching our Public and private instances...
+
+Wordpress instance which will have connectivity to 
+the outside world...
+
+    resource "aws_instance" "instance-a-wordpress" {
+     ami           = "ami-ff82f990"
+     instance_type = "t2.micro"
+     associate_public_ip_address = true
+     subnet_id = aws_subnet.public-subnet2.id
+     vpc_security_group_ids = [aws_security_group.sgcloudpublicwp.id]
+     key_name = "cloudkey3"
+
+      tags = {
+       Name = "wordpress-os"
+     }
+
+   } 
+
+# Step 6:
+Other Security Group will we private to launch
+our private instance which only have connectivity 
+to our public instance...
+
+     resource "aws_security_group" "sgroupprivate" {
+     name        = "sgroupprivate"
+     description = "Allow inbound traffic"
+     vpc_id      = aws_vpc.cloud3-vpc.id
 
 
+     ingress {
+       description = "mysql"
+       from_port   = 3306
+       to_port     = 3306
+       protocol    = "tcp"
+       security_groups = [aws_security_group.sgcloudpublicwp.id]
+     }
+
+
+     ingress {
+       description = "PING"
+       from_port   = -1
+       to_port     = -1
+       protocol    = "icmp"
+       security_groups = [aws_security_group.sgcloudpublicwp.id]
+     }
+
+
+     tags = {
+       Name = "sgroupprivate"
+     }
+  
+   }
+
+
+Our Private MySql server which will store our
+private data...
+   
+      resource "aws_instance" "mysql-private" {
+      ami           = "ami-08706cb5f68222d09"
+      instance_type = "t2.micro"
+      vpc_security_group_ids = [aws_security_group.sgroupprivate.id]
+      key_name = "cloudkey3"
+      subnet_id = aws_subnet.private-subnet1.id
+  
+      tags = {
+        Name = "mysql-private"
+      }
+    }
      
-
-
-
-
-
-
-
 
 
 
