@@ -73,11 +73,41 @@ the specifide provider...
   }
 
 # Step 2:
+Here in this step we are creating two subnets 
+one of them is public and the other is private.
+Private Subnet will store our private resources
+and data which is not accessible to outside world.
+Public subnet will contain the resources which
+will we accessible to outside world for their use.
+
+Public Subnet...
+
+    resource "aws_subnet" "public-subnet2" {
+    vpc_id     = aws_vpc.cloud3-vpc.id
+    cidr_block = "192.168.0.0/24"
+    map_public_ip_on_launch  = true
+    availability_zone = "ap-south-1a"
+
+    tags = {
+      Name = "public-subnet2"
+    }
+  }
+    
+Private Subnet....
+
+     resource "aws_subnet" "private-subnet1" {
+     vpc_id     = aws_vpc.cloud3-vpc.id
+     cidr_block = "192.168.1.0/24"
+     availability_zone = "ap-south-1a"
+     
+     tags = {
+       Name = "private-subnet1"
+     }
+   }
 
 
 
-
-
+     
 
 
 
